@@ -3,6 +3,11 @@ let amountPerClick=1;
 let combo=0;
 let multiplier=1;
 let isComboLocked=false;
+
+let slicesEaten=0;
+let pizzasEaten=0;
+let isCooldown=false;
+
 const pizzaImage=document.getElementById("pizza")
 const targetImage=document.getElementById("target")
 const scoreDisplay=document.getElementById("score")
@@ -10,12 +15,27 @@ const comboDisplay=document.getElementById("combo")
 const multiplierDisplay=document.getElementById("multiplier")
 const lockCombo=document.getElementById("lockCombo");
 const popupStack = document.getElementById("popup-Stack")
+const preloadPizza=[];
+//stop pizza delays&lag
+for(let x=1; x<=8; x++) {
+
+    preloadPizza[x]=new Image();
+    preloadPizza[x].src=`images/pizza/pizza${x}.png`;
+}
 //move target
 function moveTarget(){
-const randomUp = Math.floor(Math.random()*120)+80;
-const randomLeft = Math.floor(Math.random()*140);
-targetImage.style.top=randomUp+"px";
-targetImage.style.left=randomLeft+"px";
+const pizzaWidth=pizzaImage.clientWidth>0?pizzaImage.clientWidth: 300;
+const pizzaHeight=pizzaImage.clientHeight>0?pizzaImage.clientHeight: 300;
+
+const targetWidth=targetImage.clientWidth>0?targetImage.clientWidth:40;
+const targetHeight=targetImage.clientHeight>0?targetImage.clientHeight:40;
+
+const maxX = pizzaWidth - targetWidth;
+const maxY = pizzaHeight - targetHeight;
+const randomX = Math.random() * maxX;
+const randomY = Math.random() * maxY;
+targetImage.style.top=randomY+"px";
+targetImage.style.left=randomX+"px";
 
 
 }
@@ -46,35 +66,65 @@ if (isComboLocked){
 
 
 pizzaImage.addEventListener("click", function(e) {
+if(isCooldown){
+    return;
+}
+
 if(!isComboLocked) {
     combo=0;
 multiplier=1;
 }
-const isCrit=Math.random()<0.3;
+const isCrit=Math.random()<0.05;
 const critMultiplier =isCrit ?10:1;
-
 const pizzaRectangle=pizzaStuff.getBoundingClientRect();
+slicesEaten+=1;
+let gain=amountPerClick*multiplier*critMultiplier;
+let slicesRemaining =8-slicesEaten;
+pizzaImage.src=`images/pizza/pizza${slicesRemaining}.png`
+
+if(slicesEaten>=8){
+gain*=4;
+pizzasEaten+=1;
+slicesEaten=0;
+isCooldown=true;
+const topX=pizzaRectangle.left+70;
+const topY=pizzaRectangle.top-30;
+spawnFloatingText("✨PIZZA FORMED!✨",topX,topY,true);
 
 
-const gain=amountPerClick*multiplier*critMultiplier;
-score+=gain;
+
+setTimeout(()=>{
+
+    pizzaImage.src ="images/pizza/pizza8.png";
+    isCooldown=false;
+},400);
+screenShake();
+}
 if(isCrit){
 const topX=pizzaRectangle.left+pizzaRectangle.width/2-140;
 const topY =pizzaRectangle.top+30;
 
 
-spawnFloatingText("💥 CRITICAL 10x! +"+gain.toFixed(1), topX, topY, true);
+spawnPopupStack("+"+gain.toFixed(1), "crit");
 screenShake();
 }else{
   spawnPopupStack("+" + gain.toFixed(1));
+
 }
+score+=gain;
 updateUI();
 });
-function spawnPopupStack(text){
+function spawnPopupStack(text, type="normal"){
     const popup=document.createElement("div");
+    if(type==="crit"){
+            popup.className="stackedPopup crit";
+
+    }else{
     popup.className="stackedPopup";
-    popup.textContent=text;
+    }
+    
     popupStack.appendChild(popup)
+    popup.textContent=text;
     setTimeout(() => {
         popup.remove();
     }, 1000);
@@ -84,9 +134,9 @@ function spawnPopupStack(text){
 
 
 
-function spawnFloatingText(text, x,y, isCrit=false, customStyle=""){
+function spawnFloatingText(text, x,y, isSpecial=false, customStyle=""){
 const popup=document.createElement("div");
-popup.className = "popup-text" + (isCrit ? " crit" : "") +(customStyle?" "+customStyle:"");
+popup.className = "popup-text" + (isSpecial ? " crit" : "") +(customStyle?" "+customStyle:"");
 popup.textContent=text;
 popup.style.left=x+"px"
 popup.style.top=y+"px"
@@ -124,5 +174,8 @@ comboDisplay.textContent=combo;
 multiplierDisplay.textContent=multiplier.toFixed(2);
 
 
+
 }
+window.onload=function(){
 moveTarget();
+}

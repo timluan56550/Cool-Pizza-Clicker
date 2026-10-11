@@ -1,22 +1,23 @@
+
 <head>
 <title>Click the Pizza!</title>
 <style>
-body{
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');body{
     text-align: center;
     background-color: cornflowerblue;
     user-select: none;
 }
 
 h1 {
-font-size: 50px;
+font-size: 5vw;
 color: black;
-margin-top: 20px;
+margin-top: 3vh;
 }
 
 h2{
-font-size: 40px;
+font-size: 3.5vh;
 color: black;
-margin-top: 70px;
+margin-top: 5vh;
 
 }
 
@@ -31,8 +32,10 @@ margin-top: 70px;
     width: 90px;
     text-align: right;
     pointer-events: none;
+
 }
 .stackedPopup{
+    font-family: 'Press Start 2P',monospace;
     font-weight: bold;
     font-size: 20px;
     color: black;
@@ -46,9 +49,11 @@ margin-top: 70px;
 
 }
 #pizza{
-    width: 200px;
+    width: 400px;
     height: auto;
     margin-top: 70px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }
 
 #pizza:active {
@@ -94,13 +99,30 @@ font-size: 26px;
 transform: translateX(-10%);
 color: black;
 pointer-events: none;
-
 }
-.popup-text.crit{
+.popup-text.crit {
+    color: #f43606;
+    font-size: 30px;
+    font-weight: 800;
+    text-shadow: 0 0 8px #ffeb3b;
+}
+
+
+.stackedPopup.crit{
 color: #f43606;
-font-size: 30px;
+font-size: 20px;
 font-weight: 800;
 text-shadow: 0 0 8px #ffeb3b;
+margin-bottom: 3px;
+}
+
+.stackedPopup.pizzaComplete{
+color: #f0be09;
+font-size: 20px;
+font-weight: 800;
+text-shadow: 0 0 8px #ffad3b;
+margin-bottom: 3px;
+
 }
 </style>
 </head>
@@ -108,7 +130,7 @@ text-shadow: 0 0 8px #ffeb3b;
     <h1>Click the Pizza!</h1>
 <div id="pizzaStuff">
     <div id="popup-Stack"></div>
-<img id="pizza" src=images/pizza.png>
+<img id="pizza" src=images/pizza/pizza8.png>
 <img id="target" src=images/combo.png>
 </div>
 
