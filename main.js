@@ -64,8 +64,8 @@ if (isComboLocked){
 
 
 
-
 pizzaImage.addEventListener("click", function(e) {
+
 if(isCooldown){
     return;
 }
@@ -76,7 +76,6 @@ multiplier=1;
 }
 const isCrit=Math.random()<0.05;
 const critMultiplier =isCrit ?10:1;
-const pizzaRectangle=pizzaStuff.getBoundingClientRect();
 slicesEaten+=1;
 let gain=amountPerClick*multiplier*critMultiplier;
 let slicesRemaining =8-slicesEaten;
@@ -87,9 +86,7 @@ gain*=4;
 pizzasEaten+=1;
 slicesEaten=0;
 isCooldown=true;
-const topX=pizzaRectangle.left+70;
-const topY=pizzaRectangle.top-30;
-spawnFloatingText("✨PIZZA FORMED!✨",topX,topY,true);
+spawnFloatingText("✨PIZZA FORMED!✨",0,-30,true,"centered");
 
 
 
@@ -101,8 +98,6 @@ setTimeout(()=>{
 screenShake();
 }
 if(isCrit){
-const topX=pizzaRectangle.left+pizzaRectangle.width/2-140;
-const topY =pizzaRectangle.top+30;
 
 
 spawnPopupStack("+"+gain.toFixed(1), "crit");
@@ -138,9 +133,15 @@ function spawnFloatingText(text, x,y, isSpecial=false, customStyle=""){
 const popup=document.createElement("div");
 popup.className = "popup-text" + (isSpecial ? " crit" : "") +(customStyle?" "+customStyle:"");
 popup.textContent=text;
+
+if(customStyle.includes("centered")||(customStyle.includes("stationary-combo"))){
+    popup.style.top=y+"px"
+
+}else{
 popup.style.left=x+"px"
 popup.style.top=y+"px"
-document.body.appendChild(popup);
+}
+document.getElementById("pizzaStuff").appendChild(popup);
 setTimeout(()=>{
 popup.remove();
 },1000);
@@ -156,13 +157,13 @@ multiplier=1+Math.log(1+combo*0.1);
 
 const gain=(amountPerClick*multiplier*3)
 score+=gain;
+const localX=targetImage.offsetLeft+e.offsetX;
+const localY=targetImage.offsetTop+e.offsetY;
 
-const pizzaRectangle=pizzaStuff.getBoundingClientRect();
-spawnFloatingText("+"+gain.toFixed(1), e.pageX,e.pageY,false);
-const bottomX=pizzaRectangle.left+(pizzaRectangle.width/2)-40;
-const bottomY =pizzaRectangle.bottom +15;
+spawnPopupStack("+"+gain.toFixed(1));
+const bottomY =pizzaImage.clientHeight+10;
 
-spawnFloatingText("Combo x" + combo, bottomX, bottomY, false, "stationary-combo");
+spawnFloatingText("Combo x" + combo, 0, bottomY, false, "stationary-combo");
 moveTarget();
 updateUI();
 }

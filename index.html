@@ -1,147 +1,26 @@
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Click the Pizza!</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');body{
-    text-align: center;
-    background-color: cornflowerblue;
-    user-select: none;
-}
-
-h1 {
-font-size: 5vw;
-color: black;
-margin-top: 3vh;
-}
-
-h2{
-font-size: 3.5vh;
-color: black;
-margin-top: 5vh;
-
-}
-
-#pizzaStuff{
-    position: relative;
-    display: inline-block;
-}
-#popup-Stack{
-    position: absolute;
-    left: -140px;
-    top: 140px;
-    width: 90px;
-    text-align: right;
-    pointer-events: none;
-
-}
-.stackedPopup{
-    font-family: 'Press Start 2P',monospace;
-    font-weight: bold;
-    font-size: 20px;
-    color: black;
-    margin-bottom: 3px;
-    animation: fadeOutUp 2s forwards;
-}
-@keyframes fadeOutUp {
-
-    0% {opacity: 1; transform: translateY(0);}
-    100% {opacity: 0; transform: translateY(-10px);}
-
-}
-#pizza{
-    width: 400px;
-    height: auto;
-    margin-top: 70px;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-}
-
-#pizza:active {
-    transform: scale(0.9);
-
-}
-#target{
-    position:absolute;
-    width: 30px;
-    height: auto;
-    opacity: 0.8;
-    cursor: pointer;
-    top:100px;
-    left:100px;
-}
-#lockCombo{
-width: 30px;
-height: auto;
-vertical-align: middle ;
-margin-right: 10px;
-user-select: none;
-cursor: pointer;
-}
-#lockCombo:hover{
-filter: drop-shadow(0px 0px 10px gold);}
-
-#pizzaStuff.shake{
-    animation: shakeA 0.15s ease-in-out;
-}
-/*used ai to help write the keyframes*/
-@keyframes shakeA{
-0% { transform: translate(0, 0); }
-    20% { transform: translate(-8px, 8px); }
-    40% { transform: translate(8px, -8px); }
-    60% { transform: translate(-8px, -4px); }
-    80% { transform: translate(8px, 4px); }
-    100% { transform: translate(0, 0); }
-}
-.popup-text{
-position: absolute;
-font-weight: bold;
-font-size: 26px;
-transform: translateX(-10%);
-color: black;
-pointer-events: none;
-}
-.popup-text.crit {
-    color: #f43606;
-    font-size: 30px;
-    font-weight: 800;
-    text-shadow: 0 0 8px #ffeb3b;
-}
-
-
-.stackedPopup.crit{
-color: #f43606;
-font-size: 20px;
-font-weight: 800;
-text-shadow: 0 0 8px #ffeb3b;
-margin-bottom: 3px;
-}
-
-.stackedPopup.pizzaComplete{
-color: #f0be09;
-font-size: 20px;
-font-weight: 800;
-text-shadow: 0 0 8px #ffad3b;
-margin-bottom: 3px;
-
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click the Pizza!</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <h1>Click the Pizza!</h1>
-<div id="pizzaStuff">
-    <div id="popup-Stack"></div>
-<img id="pizza" src=images/pizza/pizza8.png>
-<img id="target" src=images/combo.png>
-</div>
 
-
-
+    <div id="pizzaStuff">
+        <div id="popup-Stack"></div>
+        <img id="pizza" src=images/pizza/pizza8.png>
+        <img id="target" src=images/combo.png>
+    </div>
 <h2>Pizzas: <span id="score">0</span></h2>
-<h3>
+
+<div class="comboArea">
 <img id="lockCombo"src="images/unlock.png" />
- Combo: <span id="combo">0</span>x (Multiplier: <span id="multiplier">1</span>x)</h3>
+ Combo: <span id="combo">0</span>x (Multiplier: <span id="multiplier">1</span>x)
+ </div>
 
-
-<script src="main.js"></script>
+    <script src="main.js"></script>
 </body>
-
+</html>

@@ -1,0 +1,171 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+body{
+    text-align: center;
+    background-image: url('images/wood.png');
+    background-size: cover;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    user-select: none;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+/* Click the Pizza*/
+h1 {
+    font-family: "Press Start 2P";
+
+font-size: 3vw;
+color: black;
+margin-bottom: 4vh;
+}
+/* # of pizzas*/
+
+h2{
+    font-family: "Press Start 2P";
+
+font-size: 3vh;
+color: black;
+margin-top: 5vh;
+
+}
+/* pizza container*/
+
+#pizzaStuff{
+    position: relative;
+    display: inline-block;
+}
+/* the actual pizza*/
+
+#pizza{
+    width: 32vw;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+/* shrinks when click*/
+
+#pizza:active {
+    transform: scale(0.9);
+
+}
+
+/* clickable target*/
+
+#target{
+    position:absolute;
+    width: 3vw;
+    height: auto;
+    max-width: 60px;
+    opacity: 0.85;
+    cursor: pointer;
+
+}
+/*the text showing combo+multiplier*/
+.comboArea{
+font-family: "Press Start 2P",monospace;
+font-size: clamp(12px,1.5vw,24px);
+color: black;
+display: flex;
+align-items: center;
+justify-content: center;
+width:100%;
+margin-top: 3vh;
+}
+
+/*the lock button */
+#lockCombo{
+width: 5vw;
+min-width: 25px;
+height: auto;
+margin-right: 1vwpx;
+user-select: none;
+cursor: pointer;
+}
+/*hovering effect over lock button*/
+#lockCombo:hover{
+filter: drop-shadow(0px 0px 8px gold);}
+
+/* the left stacking popups*/
+#popup-Stack{
+    position: absolute;
+    left: -12vw;
+    top: 10vh;
+    width: 10vw;
+    text-align: right;
+    pointer-events: none;
+
+}
+
+.stackedPopup{
+    font-family: 'Press Start 2P',monospace;
+    font-weight: bold;
+    font-size: 1.8vw;
+    color: black;
+    animation: fadeOutUp 1.5s forwards;
+    white-space: nowrap;
+}
+
+@keyframes fadeOutUp {
+
+    0% {opacity: 1; transform: translateY(0);}
+    100% {opacity: 0; transform: translateY(-4vh);}
+
+}
+
+.popup-text{
+ font-family: 'Press Start 2P',monospace;
+position: absolute;
+font-weight: bold;
+font-size: 1.8vw;
+transform: translateX(-10%);
+color: black;
+pointer-events: none;
+white-space: nowrap;
+}
+.popup-text.centered, .popup-text.stationary-combo{
+left:50%;
+transform: translateX(-50%);
+}
+.popup-text.stationary-combo{
+    color:rgb(249, 63, 63);
+    font-size: 1.6vw;
+}
+.popup-text.crit {
+    color: #f43606;
+    font-size: 2.2vw;
+    text-shadow: 0 0 8px #ffeb3b;
+}
+
+
+.stackedPopup.crit{
+color: #f43606;
+font-size: 1.4vw;
+text-shadow: 0 0 8px #ffeb3b;
+}
+
+.stackedPopup.pizzaComplete{
+color: #f0be09;
+font-size: 1.4vw;
+text-shadow: 0 0 8px #ffad3b;
+
+}
+
+#pizzaStuff.shake{
+    animation: shakeA 0.15s ease-in-out;
+}
+/*used ai to help write the keyframes*/
+@keyframes shakeA{
+0% { transform: translate(0, 0); }
+    20% { transform: translate(-8px, 8px); }
+    40% { transform: translate(8px, -8px); }
+    60% { transform: translate(-8px, -4px); }
+    80% { transform: translate(8px, 4px); }
+    100% { transform: translate(0, 0); }
+}
+
