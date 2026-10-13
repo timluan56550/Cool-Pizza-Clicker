@@ -7,6 +7,9 @@ let isComboLocked=false;
 let slicesEaten=0;
 let pizzasEaten=0;
 let isCooldown=false;
+let trackNumber=0;
+let backgroundMusic=new Audio();
+backgroundMusic.volume=0.07;
 
 const pizzaImage=document.getElementById("pizza")
 const targetImage=document.getElementById("target")
@@ -16,6 +19,33 @@ const multiplierDisplay=document.getElementById("multiplier")
 const lockCombo=document.getElementById("lockCombo");
 const popupStack = document.getElementById("popup-Stack")
 const preloadPizza=[];
+
+//music
+const playlist=[
+      {title:"Midnight Mellow", src:"audio/midnight-mellow.mp3"},
+
+    {title:"After Hours Session", src:"audio/after-hours-session.mp3"},
+  {title: "Velvet Echoes", src:"audio/velvet-echoes.mp3"}
+];
+function playSong(a){
+trackNumber=a;
+backgroundMusic.src=playlist[trackNumber].src;
+backgroundMusic.play().then(()=>{
+console.log("Now playing: "+playlist[trackNumber].title);
+}).catch(error=>{
+    console.log("Audio error");
+});
+}
+backgroundMusic.addEventListener('ended',()=>{
+trackNumber=(trackNumber+1)%playlist.length;
+playSong(trackNumber);
+
+})
+document.addEventListener('click', ()=>{
+if(backgroundMusic.paused && backgroundMusic.src===""){
+    playSong(0);
+}
+},{once:true});
 //stop pizza delays&lag
 for(let x=1; x<=8; x++) {
 

@@ -8,17 +8,21 @@ body{
     image-rendering: crisp-edges;
     user-select: none;
     margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    height: 100vh;
+    height:100dvh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr calc(15vw+5vh);
     align-items: center;
     justify-content: center;
+    padding:0 2vh
 }
+
 /* Click the Pizza*/
 h1 {
     font-family: "Press Start 2P";
 
-font-size: 3vw;
+font-size: calc(1vw + 1.5vh);
 color: black;
 margin-bottom: 4vh;
 }
@@ -27,7 +31,7 @@ margin-bottom: 4vh;
 h2{
     font-family: "Press Start 2P";
 
-font-size: 3vh;
+font-size: calc(1vw + 1.5vh);
 color: black;
 margin-top: 5vh;
 
@@ -41,7 +45,7 @@ margin-top: 5vh;
 /* the actual pizza*/
 
 #pizza{
-    width: 32vw;
+    width: calc(20vw + 12vh);
     max-width: 400px;
     height: auto;
     display: block;
@@ -59,7 +63,9 @@ margin-top: 5vh;
 
 #target{
     position:absolute;
-    width: 3vw;
+    top:40%;
+    left:40%;
+    width: 11%;
     height: auto;
     max-width: 60px;
     opacity: 0.85;
@@ -69,7 +75,7 @@ margin-top: 5vh;
 /*the text showing combo+multiplier*/
 .comboArea{
 font-family: "Press Start 2P",monospace;
-font-size: clamp(12px,1.5vw,24px);
+font-size: calc(0.8vw + 1vh);
 color: black;
 display: flex;
 align-items: center;
@@ -80,10 +86,10 @@ margin-top: 3vh;
 
 /*the lock button */
 #lockCombo{
-width: 5vw;
+width: calc(3vw + 2vh);
 min-width: 25px;
 height: auto;
-margin-right: 1vwpx;
+margin-right: 1vw;
 user-select: none;
 cursor: pointer;
 }
@@ -105,7 +111,7 @@ filter: drop-shadow(0px 0px 8px gold);}
 .stackedPopup{
     font-family: 'Press Start 2P',monospace;
     font-weight: bold;
-    font-size: 1.8vw;
+    font-size: calc(1vw + 1vh);
     color: black;
     animation: fadeOutUp 1.5s forwards;
     white-space: nowrap;
@@ -122,7 +128,7 @@ filter: drop-shadow(0px 0px 8px gold);}
  font-family: 'Press Start 2P',monospace;
 position: absolute;
 font-weight: bold;
-font-size: 1.8vw;
+font-size: calc(1vw + 1vh);
 transform: translateX(-10%);
 color: black;
 pointer-events: none;
@@ -134,24 +140,25 @@ transform: translateX(-50%);
 }
 .popup-text.stationary-combo{
     color:rgb(249, 63, 63);
-    font-size: 1.6vw;
+    font-size: calc(1.1vw + 1.1vh);
 }
 .popup-text.crit {
+    margin-top: 2vh;
     color: #f43606;
-    font-size: 2.2vw;
+    font-size: calc(0.8vw + 0.9vh);
     text-shadow: 0 0 8px #ffeb3b;
 }
 
 
 .stackedPopup.crit{
 color: #f43606;
-font-size: 1.4vw;
+font-size: calc(1vw + 1vh);
 text-shadow: 0 0 8px #ffeb3b;
 }
 
 .stackedPopup.pizzaComplete{
 color: #f0be09;
-font-size: 1.4vw;
+font-size: calc(1vw + 1vh);
 text-shadow: 0 0 8px #ffad3b;
 
 }
@@ -168,4 +175,31 @@ text-shadow: 0 0 8px #ffad3b;
     80% { transform: translate(8px, 4px); }
     100% { transform: translate(0, 0); }
 }
+ h1, h2, .comboArea{
+    white-space: nowrap;
+ }
+ #main-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+/* upgrade tab */
+#upgrade-tab{
+position:absolute;
+right: 2vw;
+top: 50%;
+transform:translateY(-50%);
+width: calc(15vw+5vh);
+min-width: 70px;
+height: calc(60vh+10vw);
 
+border-radius: 8px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+padding:calc(1vh+0.5vw);
+box-sizing: border-box;
+
+}
