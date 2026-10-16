@@ -168,7 +168,6 @@ text-shadow: 0 0 8px #ffad3b;
 #pizzaStuff.shake{
     animation: shakeA 0.15s ease-in-out;
 }
-/*used ai to help write the keyframes*/
 @keyframes shakeA{
 0% { transform: translate(0, 0); }
     20% { transform: translate(-8px, 8px); }
@@ -194,8 +193,8 @@ height: 100vh;
 height:100dvh;
 display: flex;
 flex-direction: column;
-align-items: stretch;
-justify-content: center;
+align-items: center;
+justify-content: flex-end;
 padding: 0;
 box-sizing: border-box;
 min-width: 0;
@@ -204,10 +203,95 @@ border: 2px dashed red;
 
 }
 
+#notepad-open-container{
+    position:relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 
-.notepad-animation{
+
+
+}
+
+#upgrade-grid{
+    container-type: inline-size;
+position: absolute;
+top: 56%;
+bottom: 5%;
+left: 10%;
+right: 10%;
+display:flex;
+flex-direction: column;
+gap: 4px;
+padding:4px;
+border: 2px dashed orange;
+
+
+
+}
+
+.upgrade-button{
+background-color:rgba(255, 254, 254, 0.906);
+border: 2px solid darkslategrey;
+border-radius: 4px;
+padding: 8px 8px;
+/* cqw Container query width( based of its container) */
+font-size:clamp(10px, 2.5cqw,14px);
+font-family: "Press Start 2P", monospace;
 width:100%;
-aspect-ratio: 64/100;
+max-width: 100%;
+box-sizing: border-box;
+cursor: pointer;
+
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap:0.1vh;
+
+
+
+
+}
+
+.upgrade-button:hover{
+    background-color: white;
+    border-color: gold;
+}
+.upgrade-button.maxed{
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color:rgba(133, 131, 131, 0.798);
+}
+#upgrade-info{
+position: absolute;
+/* puts it center of the upgrade buttton */
+top:50%;
+left:50%;
+transform: translate(-50%,-50%);
+background: rgba(248, 247, 247, 0.927);
+border:2px solid gray;
+border-radius: 4px;
+padding: 10px 14px;
+
+font-family: "Press Start 2P";
+font-size: clamp(6px, 2.5cqw,14px);
+text-align: center;
+z-index: 1;
+pointer-events: none;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.235);
+width: 70%;
+max-width: 220px;
+}
+#upgrade-grid:has(.upgrade-button:hover) .upgrade-button:not(:hover){
+filter: blur(2px);
+opacity: 0.3;
+transition: filter 0.2s ease, opacity 0.2s ease;
+
+
+}
+.notepad{
+width:100%;
 height:auto;
 object-fit: cover;
 object-position: bottom;
@@ -215,6 +299,14 @@ image-rendering: pixelated;
 image-rendering: crisp-edges;
 cursor: pointer;
 border: 2px dashed blue;
+}
+
+#notepad-closed{
+    aspect-ratio: 64/100;
+
+}
+#notepad-open{
+    aspect-ratio: 64/200;
 }
 #closeNotepadButton{
 font-family: "Press Start 2P";

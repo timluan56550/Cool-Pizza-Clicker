@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no">
     <title>Click the Pizza!</title>
     <link rel="stylesheet" href="index.css">
 </head>
@@ -14,11 +14,11 @@
     <div id="pizzaStuff">
         <div id="popup-Stack"></div>
         <img id="pizza" src=images/pizza/pizza8.png>
-        <img id="target" src=images/combo.png>
+        <img id="target" src=images/combo.png style="display:none;">
     </div>
 <h2>Pizzas: <span id="score">0</span></h2>
 <!-- lock, combo , and multi text -->
-<div class="comboArea">
+<div class="comboArea" style="display:none;">
 <img id="lockCombo"src="images/unlock.png" />
  Combo: <span id="combo">0</span>x (Multiplier: <span id="multiplier">1</span>x)
  </div>
@@ -26,13 +26,19 @@
 
 <!-- upgrade tab -->
  <div id="upgrade-tab">
-<img id="notebook-closed" class="notepad-animation" src="images/animations/notepad_closed.gif">
+<img id="notepad-closed" class="notepad" src="images/upgrade/notepad_closed.png">
+<!-- open notpad stuff -->
+<div id="notepad-open-container" style="display:none;">
+    <img id="notepad-open" class="notepad" src="images/upgrade/notepad_open.png">
+    <div id="upgrade-info" style="display: none;">
+Hover an upgrade for more info!
+    </div>
+    <div id="upgrade-grid"></div>
+     </div>
+    <!-- temporary button until i draw it -->
+     <button id="closeNotepadButton">X</button>
 
-<img id="notebook-open" class="notepad-animation" src="images/animations/notepad_open.webp" style="display:none">
-<!-- temporary button until i draw it -->
- <button id="closeNotepadButton" style="display:none;">X</button>
- </div>
-
+</div>
 
 
     <script src="main.js"></script>

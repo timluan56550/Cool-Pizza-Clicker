@@ -1,9 +1,15 @@
+//const localSave={
+ //   score:score, combo:combo, multiplier:multiplier,
+//}
+//localStorage.setItem("data", JSON.stringify(localSave))
+//const getStorage=JSON.parse(localStorage.getItem("data"))
+
 let score=0;
 let amountPerClick=1;
 let combo=0;
 let multiplier=1;
 let isComboLocked=false;
-
+let critChance=0;
 let slicesEaten=0;
 let pizzasEaten=0;
 let isCooldown=false;
@@ -18,7 +24,154 @@ const comboDisplay=document.getElementById("combo")
 const multiplierDisplay=document.getElementById("multiplier")
 const lockCombo=document.getElementById("lockCombo");
 const popupStack = document.getElementById("popup-Stack")
+// upgrade stuff
+const info=document.getElementById("upgrade-info")
+const closedNotepad=document.getElementById("notepad-closed")
+const closeButtonNotepad=document.getElementById("closeNotepadButton")
+const openNotepadContainer=document.getElementById("notepad-open-container")
 const preloadPizza=[];
+//---> upgrade list add: id, title(cant use name because dep), info, price(pizzas),maxCount(how many times you can buy it)
+//---> currentCount(how many tiems you bought it), required, effect(what it acutally gives you))
+// id:
+// title:
+// info:
+// price:
+// maxCount:
+// currentCount:
+// growth:
+// required:
+// effect:
+let upgradeList=[
+    {
+id: 'extraPizzas',
+title: 'Extra Pizzas',
+info: 'Increase CpC by 1',
+price: 50,
+maxCount: 3,
+currentCount: 0,
+growth: 1.8,
+required: ()=> score>=0,
+effect: ()=>{amountPerClick+=1}
+},
+{
+id: 'unlockCombos',
+title: 'Combos',
+info:'Click the target button to stack combos',
+price: 100,
+maxCount: 1,
+currentCount: 0,
+growth: 1,
+required: ()=>upgradeList[0].currentCount>=2,
+effect: ()=>{
+    document.getElementById("target").style.display='block';
+    moveTarget();
+}
+},
+{
+id: 'lockCombos',
+title: 'Combo Lock',
+info:'Be able to freeze your combos to not lose them',
+price: 250,
+maxCount: 1,
+currentCount: 0,
+growth: 1,
+required: ()=>upgradeList[1].currentCount>=1,
+effect: ()=>{
+    document.getElementById("lockCombo").style.display='inline-block';
+}
+},
+{
+id: 'critChance',
+title: 'Crispy Crits',
+info:'adds a 2% chance for every click to give you 10x Pizzas',
+price: 500,
+maxCount: 5,
+currentCount: 0,
+growth: 1.2,
+required: ()=>upgradeList[0].currentCount>=3,
+effect: ()=>{
+    critChance=0.02;
+}
+
+},
+
+
+
+
+
+
+
+// end of upgrade list
+]
+
+//this actualy turns th list into a lsit of upgrade when you open the nnotepad
+function openUpgrade(){
+const grid=document.getElementById("upgrade-grid");
+if(!grid) return;
+//clear everything
+grid.innerHTML="";
+
+upgradeList.forEach(upgrade=>{
+//if you have unlcoekd the upgrade, checker
+if(!upgrade.required())return;
+const maxed=upgrade.currentCount>=upgrade.maxCount;
+//be able to customize the box 
+const upgradeButton=document.createElement("div");
+//start to use more `${} isntead of +
+upgradeButton.className=`upgrade-button ${maxed ? 'maxed' : ''}`;
+// make html and css for each item in the list without having to do it manually shows the title, price, etc
+upgradeButton.innerHTML=   `
+<b>${upgrade.title}</b>
+<span style="font-size: 1em; margin:4px 0;">${upgrade.info}</span>
+<span> Cost: ${upgrade.price}</span>
+<span> Level: (${upgrade.currentCount}/${upgrade.maxCount})</span>
+
+`;
+upgradeButton.addEventListener("click", ()=>{
+if(maxed)
+    return;
+if(score>= upgrade.price){
+//remove pizzas based on price
+score-=upgrade.price;
+//increase the count
+upgrade.currentCount+=1;
+//increase price
+upgrade.price=Math.floor(upgrade.price*upgrade.growth);
+//does the effect
+upgrade.effect();
+//update the ui;
+updateUI();
+//refreshed teh panel 
+openUpgrade();
+
+}else{
+    //temporary debug
+    console.log("Not enough pizzas!");
+}
+
+
+});
+upgradeButton.addEventListener("mouseenter",()=>{
+if(!info)return;
+info.style.display="block";
+info.innerHTML=`
+<b style="font-size:1 em; color: firebrick">${upgrade.title}</b><br>
+<span style="font-size: 0.9em; margin: 4px 0; display:block;">${upgrade.info}</span>
+<span style="font-size: 0.85em; opacity:0.8;">Cost: ${upgrade.price} <br> Level: ${upgrade.currentCount}/${upgrade.maxCount}</span>
+
+`;
+});
+
+upgradeButton.addEventListener("mouseleave", ()=>{
+if(!info) return;
+info.style.display="none";
+
+
+});
+//adds teh button to the html/grid
+grid.appendChild(upgradeButton);
+});
+}
 
 //music
 const playlist=[
@@ -46,8 +199,24 @@ if(backgroundMusic.paused && backgroundMusic.src===""){
     playSong(0);
 }
 },{once:true});
+
+
+
+// open/close the notepad
+closedNotepad.addEventListener('click',()=>{
+closedNotepad.style.display='none';
+openNotepadContainer.style.display='block';
+closeButtonNotepad.style.display='block';
+openUpgrade();
+});
+
+closeButtonNotepad.addEventListener('click',()=>{
+openNotepadContainer.style.display='none';
+closeButtonNotepad.style.display='none';
+closedNotepad.style.display='block';
+});
 //stop pizza delays&lag
-for(let x=1; x<=8; x++) {
+for(let x=0; x<=8; x++) {
 
     preloadPizza[x]=new Image();
     preloadPizza[x].src=`images/pizza/pizza${x}.png`;
@@ -104,7 +273,7 @@ if(!isComboLocked) {
     combo=0;
 multiplier=1;
 }
-const isCrit=Math.random()<0.05;
+const isCrit=Math.random()<critChance;
 const critMultiplier =isCrit ?10:1;
 slicesEaten+=1;
 let gain=amountPerClick*multiplier*critMultiplier;
@@ -139,6 +308,8 @@ screenShake();
 score+=gain;
 updateUI();
 });
+
+
 function spawnPopupStack(text, type="normal"){
     const popup=document.createElement("div");
     if(type==="crit"){

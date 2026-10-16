@@ -9,4 +9,4 @@ Stack combos - click the target to stack your combo, gain higher multiplier, don
 
 Lock combo - Click the Lock button to freeze and unfreeze your combo streak! That way you can click the pizza with the multiplier, and not lose your streak!
 
-Can you reach 1000 Pizzas?
+Can you reach 10000 Pizzas?
