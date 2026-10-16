@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+/* imports a font i like this one the best */
 body{
     text-align: center;
     background-image: url('images/wood.png');
@@ -9,6 +10,7 @@ body{
     user-select: none;
     margin: 0;
     height: 100vh;
+    /* helps with mobile displays i think i havent test yet so i added a fallback of 100vh*/
     height:100dvh;
     overflow: hidden;
     display: grid;
@@ -236,7 +238,7 @@ background-color:rgba(255, 254, 254, 0.906);
 border: 2px solid darkslategrey;
 border-radius: 4px;
 padding: 8px 8px;
-/* cqw Container query width( based of its container) */
+/* cqw Container query width( based of its container) remember to fix this because i dont think it works, i still dont udnerstand watch a tutorial later*/
 font-size:clamp(2px, 4cqw,14px);
 font-family: "Press Start 2P", monospace;
 width:100%;

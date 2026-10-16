@@ -1,6 +1,6 @@
 
 let score=0;
-let amountPerClick=5;
+let amountPerClick=40;
 let combo=0;
 let multiplier=1;
 let isComboLocked=false;
@@ -11,6 +11,7 @@ let isCooldown=false;
 let trackNumber=0;
 let backgroundMusic=new Audio();
 let bonusPizza=4;
+let multiplierGrowth=1;
 backgroundMusic.volume=0.07;
 
 const pizzaImage=document.getElementById("pizza")
@@ -21,6 +22,11 @@ const multiplierDisplay=document.getElementById("multiplier")
 const lockCombo=document.getElementById("lockCombo");
 const popupStack = document.getElementById("popup-Stack")
 // upgrade stuff
+//this imports the list- gave up because it didnt work for a while so im just putting my array here
+//import { upgradeList } from './upgrades.js';
+//dont undersatnd why this didnt work
+//const upgradeList=require('./upgrades.js')
+
 const info=document.getElementById("upgrade-info")
 const closedNotepad=document.getElementById("notepad-closed")
 const closeButtonNotepad=document.getElementById("closeNotepadButton")
@@ -40,7 +46,9 @@ const preloadPizza=[]
 // growth:
 // required:
 // effect:
-let upgradeList=[
+//module.exports- makes teh array avaliable to any other file that requires this module
+//module.exports - doesnt work idk why
+const upgradeList=[
     {
 id: 'extraPizzas',
 title: 'Extra Pizzas',
@@ -109,20 +117,23 @@ effect: ()=>{
 }
 
 },
-// {
-// id: 'bonusFinishPizza',
-// title: 'Bigger Bonus',
-// info:'Increases the reward for finishing a pizza by 2x per upgrade!',
-// price: 300,
-// maxCount: 3,
-// currentCount: 0,
-// growth: 1.3,
-// required: ()=>upgradeList[0].currentCount>=3,
-// effect: ()=>{
-//     bonusPizza*=2;
-// }
+{
+id: 'multiplierIncrease',
+title: 'Better Combo Multiplier',
+info:'Slightly improves the formula for the Combo Multiplier',
+price: 750,
+maxCount: 2,
+currentCount: 0,
+growth: 1.9,
+required: ()=>upgradeList[2].currentCount>=1,
+effect: ()=>{
+    multiplierGrowth+=0.5;
+    multiplier=1+Math.log(1+combo*0.1*multiplierGrowth);
+    updateUI()
 
-// },
+}
+
+},
 
 
 
@@ -131,16 +142,17 @@ effect: ()=>{
 // end of upgrade list
 ]
 
+
 //this actualy turns th list into a lsit of upgrade when you open the nnotepad
 function openUpgrade(){
 const grid=document.getElementById("upgrade-grid");
-if(!grid) return;
 //clear everything so stuff dont duplicate
 grid.innerHTML=""
-
+//does this for every upgrade in the list
 upgradeList.forEach(upgrade=>{
 //if you have unlcoekd the upgrade, checker
-if(!upgrade.required())return;
+if(!upgrade.required())
+    return;
 const maxed=upgrade.currentCount>=upgrade.maxCount;
 //be able to customize the box 
 const upgradeButton=document.createElement("div");
@@ -150,8 +162,7 @@ upgradeButton.className=`upgrade-button ${maxed ? 'maxed' : ''}`;
 upgradeButton.innerHTML=  
 "<b>"+upgrade.title+"</b>"+
 "<span> Cost: "+ upgrade.price + "</span>" +
-"<span> Level: "+ upgrade.currentCount + "/" + upgrade.maxCount+ "</span>" +
-"</div>"
+"<span> Level: "+ upgrade.currentCount + "/" + upgrade.maxCount+ "</span>"
 
 //when you click the upgrade
 upgradeButton.addEventListener("click", ()=>{
@@ -383,7 +394,7 @@ targetImage.addEventListener("click", function(e) {
 e.stopPropagation();
 if(!isComboLocked){
     combo+=1;
-multiplier=1+Math.log(1+combo*0.1);
+multiplier=1+Math.log(1+combo*0.1*multiplierGrowth);
 
 const gain=(amountPerClick*multiplier*3)
 score+=gain;
