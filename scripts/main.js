@@ -1,6 +1,6 @@
 
 let score=0;
-let amountPerClick=40;
+let amountPerClick=10000;
 let combo=0;
 let multiplier=1;
 let isComboLocked=false;
@@ -12,6 +12,8 @@ let trackNumber=0;
 let backgroundMusic=new Audio();
 let bonusPizza=4;
 let multiplierGrowth=1;
+let critGainMultiplier=1;
+let critMultiplier=1;
 backgroundMusic.volume=0.07;
 
 const pizzaImage=document.getElementById("pizza")
@@ -22,10 +24,9 @@ const multiplierDisplay=document.getElementById("multiplier")
 const lockCombo=document.getElementById("lockCombo");
 const popupStack = document.getElementById("popup-Stack")
 // upgrade stuff
-//this imports the list- gave up because it didnt work for a while so im just putting my array here
-//import { upgradeList } from './upgrades.js';
 //dont undersatnd why this didnt work
 //const upgradeList=require('./upgrades.js')
+//i got it to work
 
 const info=document.getElementById("upgrade-info")
 const closedNotepad=document.getElementById("notepad-closed")
@@ -99,7 +100,7 @@ currentCount: 0,
 growth: 1.2,
 required: ()=>upgradeList[0].currentCount>=3,
 effect: ()=>{
-    critChance=0.02;
+    critChance+=0.02;
 }
 
 },
@@ -107,10 +108,10 @@ effect: ()=>{
 id: 'bonusFinishPizza',
 title: 'Bigger Bonus',
 info:'Increases the reward for finishing a pizza by 2x per upgrade!',
-price: 300,
+price: 250,
 maxCount: 3,
 currentCount: 0,
-growth: 1.3,
+growth: 1.4,
 required: ()=>upgradeList[0].currentCount>=3,
 effect: ()=>{
     bonusPizza*=2;
@@ -121,7 +122,7 @@ effect: ()=>{
 id: 'multiplierIncrease',
 title: 'Better Combo Multiplier',
 info:'Slightly improves the formula for the Combo Multiplier',
-price: 750,
+price: 700,
 maxCount: 2,
 currentCount: 0,
 growth: 1.9,
@@ -134,6 +135,36 @@ effect: ()=>{
 }
 
 },
+{
+id: 'morePizza',
+title: 'XL Pizzas',
+info:'Multiplies the CpC by 1.5 per upgrade',
+price: 500,
+maxCount: 20,
+currentCount: 0,
+growth: 1.6,
+required: ()=>upgradeList[0].currentCount>=3,
+effect: ()=>{
+    amountPerClick*=1.5;
+}
+
+},
+{
+id: 'moreCritGain',
+title: 'More Powerful Crits',
+info:'Increases the multiplier for Crits by 1.75x per upgrade',
+price: 800,
+maxCount: 2,
+currentCount: 0,
+growth: 3,
+required: ()=>upgradeList[3].currentCount>=1,
+effect: ()=>{critGainMultiplier*=1.75
+
+}
+
+},
+
+
 
 
 
@@ -141,7 +172,6 @@ effect: ()=>{
 
 // end of upgrade list
 ]
-
 
 //this actualy turns th list into a lsit of upgrade when you open the nnotepad
 function openUpgrade(){
@@ -182,9 +212,6 @@ updateUI();
 //refreshed teh panel 
 openUpgrade();
 
-}else{
-    //temporary debug
-    console.log("Not enough pizzas!")
 }
 
 
@@ -208,6 +235,7 @@ info.style.display="none";
 grid.appendChild(upgradeButton);
 });
 }
+
 
 //music
 const playlist=[
@@ -244,6 +272,8 @@ closedNotepad.addEventListener('click',()=>{
 closedNotepad.style.display='none';
 openNotepadContainer.style.display='block';
 closeButtonNotepad.style.display='block';
+//debug test
+console.log("you have opened the notepad");
 openUpgrade();
 });
 
@@ -315,7 +345,11 @@ multiplier=1;
 }
 //crit
 const isCrit=Math.random()<critChance;
-const critMultiplier =isCrit ?10:1;
+if(isCrit){
+ critMultiplier =10*critGainMultiplier;
+}else{
+ critMultiplier=1;
+}
 slicesEaten+=1;
 let gain=amountPerClick*multiplier*critMultiplier;
 let slicesRemaining =8-slicesEaten;

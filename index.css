@@ -228,7 +228,8 @@ flex-direction: column;
 gap: 4px;
 padding:4px;
 border: 2px dashed orange;
-
+overflow-y: auto;
+overflow-x: hidden;
 
 
 }
@@ -244,6 +245,8 @@ font-family: "Press Start 2P", monospace;
 width:100%;
 max-width: 100%;
 max-height: 70px;
+min-height: 50px;
+flex-shrink: 0;
 overflow: hidden;
 box-sizing: border-box;
 cursor: pointer;
