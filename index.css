@@ -235,7 +235,7 @@ overflow-x: hidden;
 }
 
 .upgrade-button{
-background-color:rgba(255, 254, 254, 0.906);
+background-color:rgba(229, 225, 225, 0.437);
 border: 2px solid darkslategrey;
 border-radius: 4px;
 padding: 8px 8px;
@@ -245,7 +245,7 @@ font-family: "Press Start 2P", monospace;
 width:100%;
 max-width: 100%;
 max-height: 70px;
-min-height: 50px;
+min-height: 20cqw;
 flex-shrink: 0;
 overflow: hidden;
 box-sizing: border-box;
@@ -290,6 +290,7 @@ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.235);
 width: 70%;
 max-width: 220px;
 }
+/* this checks if a button in the grid is hovered that is NOT the one being hovered */
 #upgrade-grid:has(.upgrade-button:hover) .upgrade-button:not(:hover){
 filter: blur(2px);
 opacity: 0.3;

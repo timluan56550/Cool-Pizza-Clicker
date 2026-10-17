@@ -14,6 +14,7 @@ let bonusPizza=4;
 let multiplierGrowth=1;
 let critGainMultiplier=1;
 let critMultiplier=1;
+let powerGain=1;
 backgroundMusic.volume=0.07;
 
 const pizzaImage=document.getElementById("pizza")
@@ -51,7 +52,7 @@ const preloadPizza=[]
 //module.exports - doesnt work idk why
 const upgradeList=[
     {
-id: 'extraPizzas',
+id: '0',
 title: 'Extra Pizzas',
 info: 'Increase CpC by 1',
 price: 50,
@@ -62,7 +63,7 @@ required: ()=> score>=0,
 effect: ()=> amountPerClick+=1
 },
 {
-id: 'unlockCombos',
+id: '1',
 title: 'Combos',
 info:'Click the target button to stack combos',
 price: 100,
@@ -78,7 +79,7 @@ effect: ()=>{
 }
 },
 {
-id: 'lockCombos',
+id: '2',
 title: 'Combo Lock',
 info:'Be able to freeze your combos to not lose them',
 price: 250,
@@ -91,7 +92,7 @@ effect: ()=>{
 }
 },
 {
-id: 'critChance',
+id: '3',
 title: 'Crispy Crits',
 info:'adds a 2% chance for every click to give you 10x Pizzas',
 price: 500,
@@ -105,25 +106,49 @@ effect: ()=>{
 
 },
 {
-id: 'bonusFinishPizza',
-title: 'Bigger Bonus',
-info:'Increases the reward for finishing a pizza by 2x per upgrade!',
-price: 250,
-maxCount: 3,
+id: '4',
+title: 'Combo AutoClicker',
+info:'Automatically clicks the target for you every 2 seconds',
+price: 350,
+maxCount: 1,
 currentCount: 0,
-growth: 1.4,
+growth: 1,
+required: ()=>upgradeList[1].currentCount>=1,
+effect: ()=>{
+    setInterval(()=>{
+        combo+=1;
+        multiplier=1+Math.log(1+combo*0.1*multiplierGrowth);
+        const gain=(amountPerClick*multiplier*3)
+        score+=gain;
+        const bottomY =pizzaImage.clientHeight+10;
+        spawnPopupStack("+"+gain.toFixed(1));
+        spawnFloatingText("Combo x" + combo, 0, bottomY, false, "stationary-combo");
+        updateUI();
+    },2000)
+    
+    
+}
+},
+{
+id: '5',
+title: 'Bigger Bonus',
+info:'Increases the reward for finishing a pizza by 1.4x per upgrade!',
+price: 200,
+maxCount: 10,
+currentCount: 0,
+growth: 1.45,
 required: ()=>upgradeList[0].currentCount>=3,
 effect: ()=>{
-    bonusPizza*=2;
+    bonusPizza*=1.4;
 }
 
 },
 {
-id: 'multiplierIncrease',
+id: '6',
 title: 'Better Combo Multiplier',
 info:'Slightly improves the formula for the Combo Multiplier',
 price: 700,
-maxCount: 2,
+maxCount: 5,
 currentCount: 0,
 growth: 1.9,
 required: ()=>upgradeList[2].currentCount>=1,
@@ -136,29 +161,58 @@ effect: ()=>{
 
 },
 {
-id: 'morePizza',
+id: '7',
 title: 'XL Pizzas',
-info:'Multiplies the CpC by 1.5 per upgrade',
+info:'Multiplies the CpC by 1.3 per upgrade',
 price: 500,
-maxCount: 20,
+maxCount: 10,
 currentCount: 0,
-growth: 1.6,
+growth: 1.5,
 required: ()=>upgradeList[0].currentCount>=3,
 effect: ()=>{
-    amountPerClick*=1.5;
+    amountPerClick*=1.3;
 }
 
 },
 {
-id: 'moreCritGain',
+id: '8',
 title: 'More Powerful Crits',
-info:'Increases the multiplier for Crits by 1.75x per upgrade',
+info:'Increases the multiplier for Crits by 1.5x per upgrade',
 price: 800,
 maxCount: 2,
 currentCount: 0,
 growth: 3,
-required: ()=>upgradeList[3].currentCount>=1,
-effect: ()=>{critGainMultiplier*=1.75
+required: ()=>upgradeList[3].currentCount>=3,
+effect: ()=>{critGainMultiplier*=1.5
+
+}
+
+},
+{
+id: '9',
+title: 'Powerful Pizza',
+info:'Powers EVERYTHING by 1.1',
+price: 5000,
+maxCount: 1,
+currentCount: 0,
+growth: 1,
+required: ()=>upgradeList[6].currentCount>=6,
+effect: ()=>{powerGain+=0.1
+
+}
+
+},
+{
+id: '10',
+title: 'XL Bonus with a Cost',
+info:'5x Bonus Pizza but your Cpc Is 0.75x',
+price: 10000,
+maxCount: 2,
+currentCount: 0,
+growth: 6,
+required: ()=>upgradeList[4].currentCount>=10,
+effect: ()=>{bonusPizza*=5;
+amountPerClick*=0.75
 
 }
 
@@ -167,8 +221,21 @@ effect: ()=>{critGainMultiplier*=1.75
 
 
 
+{
+id: 'temporary number',
+title: '1 Million Pizza',
+info:'You did it, you reached 1 million pizzas! You are a true pizza master!',
+price: 1000000,
+maxCount: 1,
+currentCount: 0,
+growth: 1,
+required: ()=>upgradeList[9].currentCount>=1,
+effect: ()=>{
+    //trigger an end game cutscene
 
+}
 
+},
 
 // end of upgrade list
 ]
@@ -351,7 +418,7 @@ if(isCrit){
  critMultiplier=1;
 }
 slicesEaten+=1;
-let gain=amountPerClick*multiplier*critMultiplier;
+let gain=amountPerClick*multiplier*critMultiplier**powerGain;
 let slicesRemaining =8-slicesEaten;
 pizzaImage.src=`images/pizza/pizza${slicesRemaining}.png`
 //8 slices
