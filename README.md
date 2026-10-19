@@ -9,10 +9,10 @@ Open the Upgrade shop! - by clicking the notepad on your right side you can open
 
 Some features include -
 
-    Critical hits- get a chance to get mor pizzas a click!
+    Critical hits- get a chance to get more pizzas a click!
 
     Stack combos - click the target to stack your combo, gain higher multiplier, don't miss or it will reset.
 
     Lock combo - Click the Lock button to freeze and unfreeze your combo streak! That way you can click the pizza with the multiplier, and not lose your streak!
 
-    End goal - Reach and buy the final upgrade of 1 MILLION Pizzas! YUM!
+    End goal - Reach and buy the final upgrade of 10 MILLION Pizzas and become the PIZZA MASTER! YUM!
