@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- got this dev tool from a friend because my school blocks inspect -->
+    <!-- got this dev tool from a friend because my school blocks inspect
     <script src="https://unpkg.com/eruda"></script>
-<script>eruda.init();</script>
+<script>eruda.init();</script> -->
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no">
     <title>Click the Pizza!</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
+    <!-- end game credits/image -->
+     <div id="endScene" style="display:none;">
+     <img src="images/endImage.png">
+     </div>
     <!-- main ui stuff -->
     <div id="main-ui">
     <h1>Click the Pizza!</h1>
     <div id="pizzaStuff">
         <div id="popup-Stack"></div>
-        <img id="pizza" src=images/pizza/pizza8.png>
-        <img id="target" src=images/combo.png style="display:none;">
+        <img id="pizza" src="images/pizza/pizza8.png" draggable="false">
+        <img id="target" src="images/combo.png" style="display:none;" draggable="false">
     </div>
 <h2>Pizzas: <span id="score">0</span></h2>
 <!-- lock, combo , and multi text -->
-<div class="comboArea"> 
+<div class="comboArea" draggable="false"> 
 <img id="lockCombo"src="images/unlock.png"style="display:none;" />
 <div id="comboText" style="display:none;">
  Combo: <span id="combo" >0</span>x (Multiplier: <span id="multiplier">1</span>x)
@@ -31,17 +35,16 @@
 </div>
 <!-- upgrade tab -->
  <div id="upgrade-tab">
-<img id="notepad-closed" class="notepad" src="images/upgrade/notepad_closed.png">
+<img id="notepad-closed" class="notepad" src="images/upgrade/notepad_closed.png"  draggable="false">
 <!-- open notpad stuff -->
 <div id="notepad-open-container" style="display:none;">
-    <img id="notepad-open" class="notepad" src="images/upgrade/notepad_open.png">
-    <div id="upgrade-info" style="display: none;">
-Hover an upgrade for more info!
-    </div>
+    <img id="notepad-open" class="notepad" src="images/upgrade/notepad_open.png"  draggable="false">
+    <div id="upgrade-info" style="display: none;"  draggable="false">   
+</div>
     <div id="upgrade-grid"></div>
      </div>
     <!-- temporary button until i draw it -->
-     <button id="closeNotepadButton">X</button>
+     <button id="closeNotepadButton" style="display:none;" draggable="false">X</button>
 
 </div>
 
