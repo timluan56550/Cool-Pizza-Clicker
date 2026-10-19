@@ -214,13 +214,13 @@ effect: ()=>{powerGain+=0.1
 {
 id: '10',
 title: 'XL Bonus with Bonus',
-info:'1.5x Bonus Pizza AND your CpC',
+info:'1.7x Bonus Pizza AND 1.5x your CpC',
 price: 10000,
 maxCount: 4,
 currentCount: 0,
 growth: 4.8,
 required: ()=>upgradeList[5].currentCount>=10,
-effect: ()=>{bonusPizza*=1.5;
+effect: ()=>{bonusPizza*=1.7;
 amountPerClick*=1.5
 
 }
@@ -499,7 +499,7 @@ let slicesRemaining =8-slicesEaten;
 pizzaImage.src=`images/pizza/pizza${slicesRemaining}.png`
 //8 slices
 if(slicesEaten>=8){
-gain*= bonusPizza/amountPerClick;
+gain*= bonusPizza/(amountPerClick*amountPerClickBase);
 soundFinishPizza(0.8);
 pizzasEaten+=1;
 slicesEaten=0;
